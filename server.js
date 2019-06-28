@@ -1,6 +1,8 @@
 var express = require("express")
+var path = require("path")
 var app = express();
 var PORT = process.env.PORT || 8000;
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,10 +37,24 @@ app.get("/newres", function(req, res) {
      res.sendFile(path.join(__dirname, "newRes.html"));
   });
 
-app.get("/newview", function(req, res) {
-    res.sendFile(path.join(__dirname, "newview.html"));
+app.get("/resview", function(req, res) {
+    res.sendFile(path.join(__dirname, "resView.html"));
   });
 
 app.listen(PORT, function() {
     console.log("App listening on PORT" + PORT);
 });
+
+
+app.post("/resview", function(req, res) {
+  var newRes = req.body;
+
+  newRes.routeName = newRes.name.replace(/\s+/g, "").toLowerCase();
+
+  console.log(newRes);
+
+  tables.push(newRes);
+
+  res.json(newRes);
+
+})
